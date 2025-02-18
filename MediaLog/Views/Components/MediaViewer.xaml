@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="MediaLog.Views.Components.MediaViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MediaLog.Views.Components"
+             Height="Auto"
+             Width="Auto">
+
+    <Grid>
+
+        <Grid>
+            <TextBlock Text="{Binding Title}"
+                       FontSize="24"
+                       Foreground="White"
+                       Margin="15, 0, 0, 0" />
+            <ScrollViewer x:Name="ScrollViewer"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Hidden"
+                          Height="Auto"
+                          Margin="0, 0, 20, 0"
+                          Width="Auto"
+                          ClipToBounds="True"
+            >
+                <ItemsControl ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal"
+                                       Width="Auto"
+                                       HorizontalAlignment="Stretch" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Width="175"
+                                        Margin="15,60,0,0">
+                                <Image Source="{Binding PosterPath}"
+                                       Height="Auto"
+                                       Stretch="UniformToFill" />
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Image Source="/Assets/blur.png"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Stretch"
+                   Margin="0,-40,-100,0"
+                   Stretch="Fill"
+                   Width="250"
+                   Height="450"
+                   Opacity="1"
+                IsHitTestVisible="False"
+                   Panel.ZIndex="2"/>
+
+                <Button Width="44"
+                    Height="44"
+                    Background="#ED8A19"
+                    BorderBrush="Transparent"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Command="{Binding ScrollLeftCommand}"
+                    CommandParameter="{Binding ElementName=ScrollViewer}"
+                    Panel.ZIndex="3"
+                    Style="{StaticResource CircularButtonStyle}">
+                <Image Source="/Assets/left-arrow.png"
+                       Width="18"
+                       Height="18" />
+            </Button>
+
+            <!-- Botão Direito -->
+            <Button Width="44"
+                    Height="44"
+                    Background="#ED8A19"
+                    BorderBrush="Transparent"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Command="{Binding ScrollRightCommand}"
+                    CommandParameter="{Binding ElementName=ScrollViewer}"
+                    Panel.ZIndex="3"
+                    Style="{StaticResource CircularButtonStyle}">
+                <Image Source="/Assets/right-arrow.png"
+                       Width="18"
+                       Height="18" />
+            </Button>
+        </Grid>
+
+    </Grid>
+</UserControl>

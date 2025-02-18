@@ -1,58 +1,55 @@
 ﻿<Window x:Class="MediaLog.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+        xmlns:components="clr-namespace:MediaLog.Views.Components"
         Title="MediaLog"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent">
+
     <Window.Resources>
-        <!-- Sombra para os Cards -->
-        <DropShadowEffect x:Key="CardShadow"
-                          BlurRadius="10"
-                          ShadowDepth="2"
-                          Opacity="0.3"
-                          Color="Black" />
+        <!-- Efeito de Blur -->
+        <Style x:Key="WindowBlur"
+               TargetType="Border">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="#AA000000" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <BlurEffect Radius="20" />
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <!-- Clipping para deixar imagens com cantos arredondados -->
-        <RectangleGeometry x:Key="CardClip"
-                           Rect="0,0,200,250"
-                           RadiusX="10"
-                           RadiusY="10" />
+        <FontFamily x:Key="test">pack://application:,,,/Fonts/#Inter</FontFamily>
 
-            <!-- Efeito de Blur -->
-            <Style x:Key="WindowBlur"
-                   TargetType="Border">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Color="#AA000000" />
-                        <!-- Fundo semi-transparente -->
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="Effect">
-                    <Setter.Value>
-                        <BlurEffect Radius="20" />
-                        <!-- Aumente o Radius para mais desfoque -->
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
+        <Style TargetType="Window">
+            <Setter Property="FontFamily"
+                    Value="{StaticResource test}" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily"
+                    Value="{StaticResource test}" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily"
+                    Value="{StaticResource test}" />
+        </Style>
 
     </Window.Resources>
-
 
     <Grid MouseDown="DragWindow">
         <Border Style="{StaticResource WindowBlur}" />
 
-
-        <!-- Janela com fundo translúcido -->
         <Border Background="#AA000000"
                 CornerRadius="15"
                 BorderThickness="1"
                 BorderBrush="Gray"
                 Padding="10">
+
             <Grid>
-                <!-- Barra Superior (Título + Botões) -->
                 <Grid Height="40"
                       VerticalAlignment="Top"
                       Background="#66000000">
@@ -63,14 +60,12 @@
                         <ColumnDefinition Width="40" />
                     </Grid.ColumnDefinitions>
 
-                    <!-- Título da Janela -->
                     <TextBlock Text="📂 MediaLog"
                                FontSize="16"
                                Foreground="White"
                                VerticalAlignment="Center"
                                Margin="10,0,10,0" />
 
-                    <!-- Botão Minimizar -->
                     <Button Grid.Column="1"
                             Content="🗕"
                             Cursor="Hand"
@@ -80,7 +75,6 @@
                             FontSize="16"
                             Click="MinimizeWindow" />
 
-                    <!-- Botão Maximizar -->
                     <Button Grid.Column="2"
                             Content="🗖"
                             Cursor="Hand"
@@ -90,7 +84,6 @@
                             FontSize="16"
                             Click="MaximizeWindow" />
 
-                    <!-- Botão Fechar -->
                     <Button Grid.Column="3"
                             Content="✖"
                             Cursor="Hand"
@@ -101,252 +94,15 @@
                             Click="CloseWindow" />
                 </Grid>
 
-                <!-- Conteúdo Principal -->
-                <Grid Margin="20">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40" />
-                        <!-- Botão de rolagem para cima -->
-                        <RowDefinition Height="*" />
-                        <!-- Área principal com conteúdo -->
-                        <RowDefinition Height="40" />
-                        <!-- Botão de rolagem para baixo -->
-                    </Grid.RowDefinitions>
-
-                    <ScrollViewer x:Name="MainScrollViewer"
-                                  VerticalScrollBarVisibility="Auto"
-                                  Grid.Row="1">
-                        <StackPanel x:Name="ContentPanel"
-                                    Margin="10,50,0,0"
-                                    Width="Auto"
-                                    CanVerticallyScroll="False">
-                            <TextBlock Text="🎬 Filmes Populares"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       Foreground="White"
-                                       Margin="10" />
-                            <Grid>
-                                <Button Content="⬅"
-                                        Click="ScrollLeftMovies"
-                                        Background="Transparent"
-                                        Foreground="White"
-                                        Width="40"
-                                        Height="300"
-                                        HorizontalAlignment="Left" />
-
-                                <ScrollViewer x:Name="MoviesScrollViewer"
-                                              HorizontalScrollBarVisibility="Hidden"
-                                              VerticalScrollBarVisibility="Disabled"
-                                              PreviewMouseWheel="MoviesScrollViewer_PreviewMouseWheel"
-                                              Height="Auto"
-                                              Margin="50,0">
-                                    <ItemsControl x:Name="MoviesList">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <!-- Efeito de fundo arredondado -->
-
-                                                    <StackPanel Width="200"
-                                                                Margin="30">
-                                                        <!-- Imagem do Card -->
-                                                        <Border CornerRadius="5">
-                                                            <Image Source="{Binding PosterPath}"
-                                                                   Height="250"
-                                                                   Stretch="UniformToFill"
-                                                                   Clip="{StaticResource CardClip}" />
-                                                        </Border>
-
-                                                        <!-- Título -->
-                                                        <TextBlock Text="{Binding Title}"
-                                                                   FontSize="16"
-                                                                   FontWeight="Bold"
-                                                                   Foreground="White"
-                                                                   TextWrapping="Wrap"
-                                                                   Margin="5,10,5,0" />
-
-                                                        <!-- Data de Lançamento -->
-                                                        <TextBlock Text="{Binding ReleaseDate}"
-                                                                   FontSize="12"
-                                                                   Foreground="Gray"
-                                                                   Margin="5,0,5,10" />
-
-                                                        <!-- Botão de Adicionar -->
-                                                        <Button Content="⭐ Adicionar"
-                                                                Background="#FFD700"
-                                                                Foreground="Black"
-                                                                FontSize="14"
-                                                                FontWeight="Bold"
-                                                                Padding="5"
-                                                                BorderThickness="0"
-                                                                Cursor="Hand"
-                                                                Click="AddMovieToLog"
-                                                                Tag="{Binding Title}" />
-                                                    </StackPanel>
-                                                </Grid>
-                                            </DataTemplate>
-
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-
-                                <Button Content="➡"
-                                        Click="ScrollRightMovies"
-                                        Background="Transparent"
-                                        Foreground="White"
-                                        Width="40"
-                                        Height="300"
-                                        HorizontalAlignment="Right" />
-                            </Grid>
-
-                            <!-- 📺 Seção Séries Populares -->
-                            <TextBlock Text="📺 Séries Populares"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       Foreground="White"
-                                       Margin="10" />
-                            <Grid>
-                                <Button Content="⬅"
-                                        Click="ScrollLeftSeries"
-                                        Background="Transparent"
-                                        Foreground="White"
-                                        Width="40"
-                                        Height="300"
-                                        HorizontalAlignment="Left" />
-
-                                <ScrollViewer x:Name="SeriesScrollViewer"
-                                              HorizontalScrollBarVisibility="Hidden"
-                                              VerticalScrollBarVisibility="Disabled"
-                                              PreviewMouseWheel="MoviesScrollViewer_PreviewMouseWheel"
-                                              Height="Auto"
-                                              Margin="50,0">
-                                    <ItemsControl x:Name="SeriesList">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="1"
-                                                        BorderBrush="Gray"
-                                                        Padding="10"
-                                                        Margin="10"
-                                                        Background="Black">
-                                                    <StackPanel Width="200">
-                                                        <Image Source="{Binding PosterPath}"
-                                                               Height="250"
-                                                               Stretch="UniformToFill" />
-                                                        <TextBlock Text="{Binding Title}"
-                                                                   FontSize="14"
-                                                                   FontWeight="Bold"
-                                                                   Foreground="White"
-                                                                   TextWrapping="Wrap"
-                                                                   Margin="5" />
-                                                        <TextBlock Text="{Binding ReleaseDate}"
-                                                                   FontSize="12"
-                                                                   Foreground="Gray"
-                                                                   Margin="5" />
-                                                        <Button Content="⭐ Adicionar"
-                                                                Background="Yellow"
-                                                                Foreground="Black"
-                                                                Click="AddSeriesToLog"
-                                                                Tag="{Binding Title}" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-
-                                <Button Content="➡"
-                                        Click="ScrollRightSeries"
-                                        Background="Transparent"
-                                        Foreground="White"
-                                        Width="40"
-                                        Height="300"
-                                        HorizontalAlignment="Right" />
-                            </Grid>
-
-                            <!-- 🎵 Seção Álbuns Populares -->
-                            <TextBlock Text="🎵 Álbuns Populares"
-                                       FontSize="24"
-                                       FontWeight="Bold"
-                                       Foreground="White"
-                                       Margin="10" />
-                            <Grid>
-                                <Button Content="⬅"
-                                        Click="ScrollLeftAlbums"
-                                        Background="Transparent"
-                                        Foreground="White"
-                                        Width="40"
-                                        Height="300"
-                                        HorizontalAlignment="Left" />
-
-                                <ScrollViewer x:Name="AlbumsScrollViewer"
-                                              HorizontalScrollBarVisibility="Hidden"
-                                              VerticalScrollBarVisibility="Disabled"
-                                              PreviewMouseWheel="MoviesScrollViewer_PreviewMouseWheel"
-                                              Height="Auto"
-                                              Margin="50,0">
-                                    <ItemsControl x:Name="AlbumsList">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border BorderThickness="1"
-                                                        BorderBrush="Gray"
-                                                        Padding="10"
-                                                        Margin="10"
-                                                        Background="Black">
-                                                    <StackPanel Width="200">
-                                                        <Image Source="{Binding PosterPath}"
-                                                               Height="250"
-                                                               Stretch="UniformToFill" />
-                                                        <TextBlock Text="{Binding Title}"
-                                                                   FontSize="14"
-                                                                   FontWeight="Bold"
-                                                                   Foreground="White"
-                                                                   TextWrapping="Wrap"
-                                                                   Margin="5" />
-                                                        <TextBlock Text="{Binding ReleaseDate}"
-                                                                   FontSize="12"
-                                                                   Foreground="Gray"
-                                                                   Margin="5" />
-                                                        <Button Content="⭐ Adicionar"
-                                                                Background="Yellow"
-                                                                Foreground="Black"
-                                                                Click="AddAlbumToLog"
-                                                                Tag="{Binding Title}" />
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-
-                                <Button Content="➡"
-                                        Click="ScrollRightAlbums"
-                                        Background="Transparent"
-                                        Foreground="White"
-                                        Width="40"
-                                        Height="300"
-                                        HorizontalAlignment="Right" />
-                            </Grid>
-
-                        </StackPanel>
-                    </ScrollViewer>
-
-                </Grid>
-
+                <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                              Margin="0, 80, 0, 0">
+                    <StackPanel Orientation="Vertical">
+                        <components:MediaViewer DataContext="{Binding MoviesViewModel}" />
+                        <components:MediaViewer DataContext="{Binding SeriesViewModel}" />
+                        <components:MediaViewer DataContext="{Binding AlbumsViewModel}" />
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
         </Border>
     </Grid>
-
 </Window>

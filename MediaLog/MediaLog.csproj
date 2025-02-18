@@ -9,7 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\arrow.svg" />
+    <None Remove="Assets\blur.png" />
+    <None Remove="Assets\left-arrow.png" />
+    <None Remove="Assets\medialog.png" />
+    <None Remove="Assets\right-arrow.png" />
+    <None Remove="Fonts\Inter_24pt-BlackItalic.ttf" />
+    <None Remove="Fonts\Inter_24pt-Bold.ttf" />
+    <None Remove="Fonts\Inter_24pt-BoldItalic.ttf" />
+    <None Remove="Fonts\Inter_24pt-ExtraBold.ttf" />
+    <None Remove="Fonts\Inter_24pt-ExtraBoldItalic.ttf" />
+    <None Remove="Fonts\Inter_24pt-ExtraLightItalic.ttf" />
+    <None Remove="Fonts\Inter_24pt-Italic.ttf" />
+    <None Remove="Fonts\Inter_24pt-Light.ttf" />
+    <None Remove="Fonts\Inter_24pt-LightItalic.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +33,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\arrow.svg" />
+    <Resource Include="Assets\blur.png" />
+    <Resource Include="Assets\left-arrow.png" />
+    <Resource Include="Assets\medialog.png" />
+    <Resource Include="Assets\right-arrow.png" />
+    <Resource Include="Fonts\Inter-Black.ttf" />
+    <Resource Include="Fonts\Inter_24pt-BlackItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Bold.ttf" />
+    <Resource Include="Fonts\Inter_24pt-BoldItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-ExtraBold.ttf" />
+    <Resource Include="Fonts\Inter_24pt-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\Inter-ExtraLight.ttf" />
+    <Resource Include="Fonts\Inter_24pt-ExtraLightItalic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Italic.ttf" />
+    <Resource Include="Fonts\Inter_24pt-Light.ttf" />
+    <Resource Include="Fonts\Inter_24pt-LightItalic.ttf" />
+    <Resource Include="Fonts\Inter-Regular.ttf" />
   </ItemGroup>
 
 </Project>

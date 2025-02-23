@@ -50,51 +50,9 @@
                 Padding="10">
 
             <Grid>
-                <Grid Height="40"
-                      VerticalAlignment="Top"
-                      Background="#66000000">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="40" />
-                        <ColumnDefinition Width="40" />
-                        <ColumnDefinition Width="40" />
-                    </Grid.ColumnDefinitions>
+                <components:Header Grid.Row="0" />
 
-                    <TextBlock Text="📂 MediaLog"
-                               FontSize="16"
-                               Foreground="White"
-                               VerticalAlignment="Center"
-                               Margin="10,0,10,0" />
-
-                    <Button Grid.Column="1"
-                            Content="🗕"
-                            Cursor="Hand"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Foreground="White"
-                            FontSize="16"
-                            Click="MinimizeWindow" />
-
-                    <Button Grid.Column="2"
-                            Content="🗖"
-                            Cursor="Hand"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Foreground="White"
-                            FontSize="16"
-                            Click="MaximizeWindow" />
-
-                    <Button Grid.Column="3"
-                            Content="✖"
-                            Cursor="Hand"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Foreground="White"
-                            FontSize="16"
-                            Click="CloseWindow" />
-                </Grid>
-
-                <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                <ScrollViewer
                               Margin="0, 80, 0, 0">
                     <StackPanel Orientation="Vertical">
                         <components:MediaViewer DataContext="{Binding MoviesViewModel}" />
